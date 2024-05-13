@@ -18,18 +18,6 @@ end
 
 % p = 1:len;
 J = len/blockNum;
-% pos = zeros(blockNum,T );
-% p1 = reshape(p,[blockNum,T]);
-% if mod(T,2)==0 %假设偶数根天线 case1 Nt=8或4,二分
-%     p1tmp = flip(p1(:,T/2+1:end));
-%     pos = [p1(:,1:T/2),p1tmp];
-%
-% else
-%     p1tmp = flip(p1(:,(T+3)/2:end));
-%     pos = [p1(:,1:(T+1)/2),p1tmp];
-% end
-% % pos = reshape(fliplr(pos)',[],1);
-% pos = [16 15 2 1  14 13 4 3 12 11 6 5 10 9 8 7];
 
 if mod(J,2)==0 %
     % ps = 1:len/2;
