@@ -103,7 +103,7 @@ elseif Method == "CBD"
 elseif Method == "PL-CBD"
     yHat_CBD = Q'*yk;
     LeCkP = zeros(Nr*N*Qm, 1);
-    LCkY = MIMO_optimal_detection(yHat_CBD,LeCkP, SigmaN,R, ModType, Nr); % MAP
+    LCkY = MIMO_optimal_detection_plCBD(yHat_CBD,LeCkP, SigmaN,R, ModType, Nr); % MAP
     LCkY(LCkY>30)=30;
     LCkY(LCkY<-30)=-30;
     decBitsLLR = -LCkY.';
