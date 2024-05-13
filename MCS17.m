@@ -37,7 +37,6 @@ G = numDataSymPerSlot*listTB*numSubCarPerRB*Qm*numTxPort;  % Generate frame leng
 v_approach=[
    1,... %SVD-MMSE
    0,... %UCD-VBLAST
-   0,... %BL-UCD
    0,... %Soft-UCD-DP
    0,... %CBD
    0,... %PL-CBD
@@ -46,7 +45,6 @@ v_approach=[
 MethodName = strvcat( ...
     'SVD-MMSE', ...
     'UCD-VBLAST', ...
-    'BL-UCD', ...
     'UCD-DP', ...
     'CBD',...
     'PL-CBD',...
@@ -106,10 +104,6 @@ for mm = 1:MonteCalo
         end
         %%
         if (v_approach(3)==1)
-            BER(ii,3) = ErrorRate + BER(ii,3);
-        end
-        %%
-        if (v_approach(4)==1)
             Method = 'UCD-DP';
             %% GMD
             % [W_ucd_DP,R,P] = gmd(U,S,V);
@@ -127,7 +121,7 @@ for mm = 1:MonteCalo
             BER(ii,4) = ErrorRate + BER(ii,4);
         end
         %%
-        if (v_approach(5)==1)
+        if (v_approach(4)==1)
             Method = 'CBD';
             Heff_CBD = H*P;
             yk = Heff_CBD*xk + noise;
@@ -136,7 +130,7 @@ for mm = 1:MonteCalo
             BER(ii,5) = ErrorRate + BER(ii,5);
         end
         %%
-        if (v_approach(6)==1)
+        if (v_approach(5)==1)
             Method = 'PL-CBD';
             ErrorRatePlCBD = zeros(blockArray);
             for bb = 1:length(blockArray)
@@ -149,7 +143,7 @@ for mm = 1:MonteCalo
         end
         
         %%
-        if (v_approach(7)==1)
+        if (v_approach(6)==1)
             Method = 'SD';
             Heff_CBD = H;
             yk = Heff_CBD*xk + noise;
@@ -178,18 +172,6 @@ for aa=1:length(v_approach)
     vLegend = strvcat(vLegend,  MethodName(aa,:));
     semilogy(snrdB, BER(:,aa), PlotType(aa,:),'LineWidth',1.5,'MarkerSize',6);
     hold on;
-end
-if (v_approach(6)==1)
-    for jj = 1:length(blockArray)
-        if sum(BERBlocksoft(:,jj))<=0
-            continue
-        end
-        MethodNamePlot  = strcat('PL-CBD,T=',num2str(blockArray(jj)));
-        vLegend = strvcat(vLegend,  MethodNamePlot);
-        semilogy(snrdB, BERBlocksoft(:,jj), PlotType(jj+aa,:),'LineWidth',1.5,'MarkerSize',6);
-        hold on;
-
-    end
 end
 xlabel('SNR [dB]');
 ylabel('BER');
